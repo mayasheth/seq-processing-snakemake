@@ -1,0 +1,16 @@
+# List your SRA accession(s) here
+sra_accessions:
+  - SRR123456
+  - SRR234567
+bowtie2_index: /path/to/hg38/index/prefix   # e.g. /data/genomes/hg38/bowtie2/hg38
+scratch_dir: scratch
+out_dir: results
+
+# filtering parameters
+MAPQ: 30
+
+# compute parameters
+THREADS: 4
+MAX_MEM_MB: 250000 # for Sherlock
+
+

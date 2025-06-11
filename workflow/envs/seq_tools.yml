@@ -1,0 +1,13 @@
+name: seq_tools
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - mamba
+  - python=3.9
+  - samtools>=1.15
+  - sra-tools>=3.0.7
+  - bowtie2>=2.3.4
+  - bedtools>=2.27
+  - htslib
+  - pip

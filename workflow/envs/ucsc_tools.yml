@@ -1,0 +1,22 @@
+name: ucsc_tools
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - mamba
+  - pip
+  - ucsc-bedgraphtobigwig
+  - ucsc-bigwigtobedgraph 
+  - ucsc-bigwigaverageoverbed
+  - ucsc-bedtobigbed 
+  - ucsc-bigbedtobed
+  - ucsc-fetchchromsizes
+  - ucsc-twobittofa
+  - ucsc-wigtobigwig
+  - ucsc-bigwigmerge
+  - ucsc-bigwigsummary
+  - ucsc-bigwiginfo
+  - htslib
+  - bedtools
+  - samtools
+  - tabix

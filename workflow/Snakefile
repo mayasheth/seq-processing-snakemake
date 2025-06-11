@@ -1,0 +1,13 @@
+configfile: "config.yml"
+
+SRA      = config["sra_accessions"]
+INDEX    = config["bowtie2_index"]
+SCRATCH  = config["scratch_dir"]
+OUT      = config["out_dir"]
+THREADS  = config["threads"]
+MAPQ     = config["mapq"]
+
+rule all:
+    input:
+        expand("{out}/{sra}.filtered.sorted.dedup.bam.bai", out=OUT, sra=SRA)
+
