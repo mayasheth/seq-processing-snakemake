@@ -1,13 +1,48 @@
-configfile: "config.yml"
+### SET UP ###
+from snakemake.utils import min_version
+min_version("9.0")
 
-SRA      = config["sra_accessions"]
-INDEX    = config["bowtie2_index"]
-SCRATCH  = config["scratch_dir"]
-OUT      = config["out_dir"]
-THREADS  = config["threads"]
-MAPQ     = config["mapq"]
+import pandas as pd
+import os
+import yaml
+
+MAX_MEM_MB = int(config["max_memory_allocation_mb"])
+include: os.path.join("rules", "utils.smk")
+
+### READ + PROCESS CONFIG ###
+config = make_paths_absolute(config, os.getcwd())
+config["results_dir"] = os.path.abspath(config["results_dir"])
+
+SAMPLE_CONFIG = pd.read_table(config["sample_config"]).set_index("accession", drop=False)
+validate_sample_config(SAMPLE_CONFIG)
+    
+SCRATCH_DIR = config["scratch_dir"]
+RESULTS_DIR = config["results_dir"]
+THREADS = int(config["threads"])
+MAPQ = int(config["mapq_threshold"])
+
+
+### IMPORT RULES ###
+if config["sra_download"]:
+    include: os.path.join("rules","sra_download.smk")
+include: os.path.join("rules","pe_fastq_to_bam.smk")
+include: os.path.join("rules","save_params.smk")
+
+### DEFINE OUTPUT FILES ###
+out_params = [os.path.join(RESULTS_DIR, "config", "reference_config.yml"),
+    os.path.join(RESULTS_DIR, "config", "sample_metadata.tsv")]
+out_bam_index = [os.path.join(RESULTS_DIR, s.sample_name, s.assay, f"{s.accession}.filtered.sorted.dedup.bam.bai")
+    for s in SAMPLE_CONFIG.itertuples()]
+out_peaks = [os.path.join(RESULTS_DIR, s.sample_name, s.assay, f"{s.accession}.sorted.narrowPeak")
+    for s in SAMPLE_CONFIG.itertuples()]
+
+output_files = out_params
+output_files.extend(out_bam_index)
+
+if config["call_peaks"]:
+    output_files.extend(out_peaks)
 
 rule all:
     input:
-        expand("{out}/{sra}.filtered.sorted.dedup.bam.bai", out=OUT, sra=SRA)
+        output_files
 

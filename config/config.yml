@@ -1,16 +1,21 @@
-# List your SRA accession(s) here
-sra_accessions:
-  - SRR123456
-  - SRR234567
-bowtie2_index: /path/to/hg38/index/prefix   # e.g. /data/genomes/hg38/bowtie2/hg38
-scratch_dir: scratch
-out_dir: results
+# Sample config with required columns: sample_name, assay, run_type, [accession] OR [accession (any unique id), AND fastq_files]
+  # Output files will be organized as {results}/{sample_name}/{assay}/{accession}.bam, etc.
+sample_config: "config/TeloHAEC_metadata.tsv"
 
-# filtering parameters
-MAPQ: 30
+# Workflow params
+results_dir: /oak/stanford/groups/engreitz/Projects/E2G/endothelial_cells/TeloHAEC_GSE210489_GSE210491
+scratch_dir: /scratch/users/shethm/seq-processing-snakemake
+sra_download: True
+call_peaks: False
 
-# compute parameters
-THREADS: 4
-MAX_MEM_MB: 250000 # for Sherlock
+# Reference files
+bowtie2_index: /oak/stanford/groups/engreitz/Users/sheth/hg38_resources/hg38_bowtie2_index
+
+# Filtering parameters
+mapq_threshold: 30
+
+# Compute parameters
+threads: 4
+max_memory_allocation_mb: 250000 # for Sherlock, 250Gb
 
 
