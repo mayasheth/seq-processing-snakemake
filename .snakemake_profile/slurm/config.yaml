@@ -1,0 +1,31 @@
+executor: slurm
+
+jobs: 50
+retries: 3
+rerun-incomplete: true
+
+jobname: "{rulename}.{jobid}.sh"
+
+cluster:
+  submit-cmd: >
+    sbatch --parsable --ntasks=1 --cpus-per-task={threads} --mem={resources.mem_mb}
+    --time={resources.runtime_min}:00 --account={resources.slurm_account}
+    --partition={resources.slurm_partition} {resources.slurm_extra}
+    -J {rulename} -o .snakemake/slurm_logs/{rulename}.{jobid}.out
+    -e .snakemake/slurm_logs/{rulename}.{jobid}.err
+  status-cmd: "scontrol show job {jobid}"
+  cancel-cmd: "scancel {jobid}"
+  latency-wait: 60
+
+default-resources:
+  - mem_mb=4000
+  - runtime_min=360
+  - runtime=360 # 6h = 360 minutes
+  - slurm_account=engreitz
+  - slurm_partition=engreitz
+  - slurm_extra=--no-requeue
+
+printshellcmds: true
+use-conda: true
+conda-frontend: mamba
+keep-going: true
