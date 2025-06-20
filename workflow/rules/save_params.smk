@@ -38,7 +38,13 @@ rule save_reference_configs:
 
 
             # bam files
-            out["bam"] = os.path.join(params.scratch_dir, sample_name, assay, f"{accession}.filtered.sorted.dedup.bam.bai")
+            out["bam"] = os.path.join(params.results_dir, sample_name, assay, f"{accession}.filtered.sorted.dedup.bam")
+
+            # tagAlign
+            if assay == "ATAC":
+                out["tagAlign"] = os.path.join(params.results_dir, sample_name, assay, f"{accession}.tn5.sorted.tagAlign.gz")
+            else:
+                out["tagAlign"] = ""
 
             # fastq if indicated
             if params.main_config["sra_download"]:
@@ -50,7 +56,7 @@ rule save_reference_configs:
 
             # peaks if indicated
             if params.main_config["call_peaks"]:
-                out["peaks"] = os.path.join(params.scratch_dir, sample_name, assay, f"{accession}.sorted.narrowPeak")
+                out["peaks"] = os.path.join(params.scratch_dir, sample_name, assay, f"{accession}.macs2_peaks.narrowPeak")
 
             return pd.Series(out)
 
