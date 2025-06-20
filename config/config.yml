@@ -15,7 +15,7 @@ bowtie2_index: /oak/stanford/groups/engreitz/Users/sheth/hg38_resources/hg38_bow
 mapq_threshold: 30
 
 # Compute parameters
-threads: 4
+threads: 8
 max_memory_allocation_mb: 250000 # for Sherlock, 250Gb
 
 

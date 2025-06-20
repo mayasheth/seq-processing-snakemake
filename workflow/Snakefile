@@ -33,11 +33,15 @@ out_params = [os.path.join(RESULTS_DIR, "config", "reference_config.yml"),
     os.path.join(RESULTS_DIR, "config", "sample_metadata.tsv")]
 out_bam_index = [os.path.join(RESULTS_DIR, s.sample_name, s.assay, f"{s.accession}.filtered.sorted.dedup.bam.bai")
     for s in SAMPLE_CONFIG.itertuples()]
+out_tagalign_index = [os.path.join(RESULTS_DIR, s.sample_name, s.assay, f"{s.accession}.tn5.sorted.tagAlign.gz.tbi")
+    for s in SAMPLE_CONFIG.itertuples()
+    if s.assay == "ATAC"]
 out_peaks = [os.path.join(RESULTS_DIR, s.sample_name, s.assay, f"{s.accession}.sorted.narrowPeak")
     for s in SAMPLE_CONFIG.itertuples()]
 
 output_files = out_params
 output_files.extend(out_bam_index)
+output_files.extend(out_tagalign_index)
 
 if config["call_peaks"]:
     output_files.extend(out_peaks)
