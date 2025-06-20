@@ -28,12 +28,14 @@ rule bam_to_tagalign:
 			samtools sort -n {input.bam} | \
 				bedtools bamtobed -i stdin | \
 				awk 'BEGIN{{OFS="\\t"}}{{$4="N";$5="1000";print $0}}' | \
+				sort -k1,1V -k2,2n -k3,3n --parallel {threads} | \
 				bgzip -c > {output.tagalign}
 
 		elif [[ "{params.run_type}" == "PAIRED" ]]; then
 			samtools sort -n {input.bam} | \
 				bedtools bamtobed -bedpe -mate1 -i stdin | \
 				awk 'BEGIN{{OFS="\\t"}}{{printf "%s\\t%s\\t%s\\tN\\t1000\\t%s\\n%s\\t%s\\t%s\\tN\\t1000\\t%s\\n", $1, $2, $3, $9, $4, $5, $6, $10}}' | \
+				sort -k1,1V -k2,2n -k3,3n --parallel {threads} | \
 				bgzip -c > {output.tagalign}
 		else
 			echo "Unsupported run_type: {params.run_type}" >&2
