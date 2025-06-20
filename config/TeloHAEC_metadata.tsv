@@ -1,0 +1,29 @@
+accession	sample_name	assay	run_type	bases	cell_line	cell_type	file_types	sample_id	treatment
+SRR20809416	TeloHAEC_ctrl	ATAC	PAIRED	1256160880	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431151	normal growth medium
+SRR20809419	TeloHAEC_ctrl	ATAC	PAIRED	1173073920	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431150	normal growth medium
+SRR20809420	TeloHAEC_ctrl	ATAC	PAIRED	1393578800	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431152	normal growth medium
+SRR20809430	TeloHAEC_ctrl	ATAC	PAIRED	585675420	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431137	normal growth medium
+SRR20809431	TeloHAEC_ctrl	ATAC	PAIRED	1428001680	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431135	normal growth medium
+SRR20809433	TeloHAEC_ctrl	ATAC	PAIRED	607466520	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431136	normal growth medium
+SRR20809434	TeloHAEC_ctrl	ATAC	PAIRED	1555716400	Eahy926	Endothelial	fastq,run.zq,sra	GSM6431138	normal growth medium
+SRR20809435	TeloHAEC_ctrl	ATAC	PAIRED	1457732640	Eahy926	Endothelial	fastq,run.zq,sra	GSM6431133	normal growth medium
+SRR20809436	TeloHAEC_ctrl	ATAC	PAIRED	1233653040	Eahy926	Endothelial	fastq,run.zq,sra	GSM6431132	normal growth medium
+SRR20809411	TeloHAEC_IL1b	ATAC	PAIRED	1199604320	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431155	growth media supplemented with 10ng/ml IL1-beta for 24hrs
+SRR20809414	TeloHAEC_IL1b	ATAC	PAIRED	1222255120	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431154	growth media supplemented with 10ng/ml IL1-beta for 24hrs
+SRR20809415	TeloHAEC_IL1b	ATAC	PAIRED	1320170080	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431153	growth media supplemented with 10ng/ml IL1-beta for 24hrs
+SRR20809409	TeloHAEC_TNFa	ATAC	PAIRED	428120000	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431158	growth media supplemented with 10ng/ml TNF-alpha for 24hrs
+SRR20809410	TeloHAEC_TNFa	ATAC	PAIRED	1089459040	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431156	growth media supplemented with 10ng/ml TNF-alpha for 24hrs
+SRR20809412	TeloHAEC_TNFa	ATAC	PAIRED	1361424960	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431157	growth media supplemented with 10ng/ml TNF-alpha for 24hrs
+SRR20809407	TeloHAEC_VEGF_ctrl	ATAC	PAIRED	1405189280	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431161	growth media lacking VEGF (a normal component of LifeLine VEGF Endothelial cell medium) for 24hrs
+SRR20809408	TeloHAEC_VEGF_ctrl	ATAC	PAIRED	1254278480	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431160	growth media lacking VEGF (a normal component of LifeLine VEGF Endothelial cell medium) for 24hrs
+SRR20809413	TeloHAEC_VEGF_ctrl	ATAC	PAIRED	525843440	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431159	growth media lacking VEGF (a normal component of LifeLine VEGF Endothelial cell medium) for 24hrs
+SRR20810526	TeloHAEC_VEGF_ctrl	H3K27ac	PAIRED	547844080	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431191	growth media lacking VEGF (a normal component of LifeLine VEGF Endothelial cell medium) for 24hrs
+SRR20810527	TeloHAEC_VEGF_ctrl	H3K27ac	PAIRED	531970800	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431190	growth media lacking VEGF (a normal component of LifeLine VEGF Endothelial cell medium) for 24hrs
+SRR20810528	TeloHAEC_TNFa	H3K27ac	PAIRED	563027680	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431189	growth media supplemented with 10ng/ml TNF-alpha for 24hrs
+SRR20810529	TeloHAEC_TNFa	H3K27ac	PAIRED	522321680	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431188	growth media supplemented with 10ng/ml TNF-alpha for 24hrs
+SRR20810530	TeloHAEC_IL1b	H3K27ac	PAIRED	463169360	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431187	growth media supplemented with 10ng/ml IL1-beta for 24hrs
+SRR20810531	TeloHAEC_IL1b	H3K27ac	PAIRED	574180160	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431186	growth media supplemented with 10ng/ml IL1-beta for 24hrs
+SRR20810532	TeloHAEC_ctrl	H3K27ac	PAIRED	530031840	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431185	normal growth medium
+SRR20810533	TeloHAEC_ctrl	H3K27ac	PAIRED	403991040	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431184	normal growth medium
+SRR20810544	TeloHAEC_ctrl	H3K27ac	PAIRED	1561737660	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431173	normal growth medium
+SRR20810545	TeloHAEC_ctrl	H3K27ac	PAIRED	1335066960	TeloHAEC	Endothelial	fastq,run.zq,sra	GSM6431172	normal growth medium

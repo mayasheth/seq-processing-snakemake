@@ -14,6 +14,16 @@ bowtie2_index: /oak/stanford/groups/engreitz/Users/sheth/hg38_resources/hg38_bow
 # Filtering parameters
 mapq_threshold: 30
 
+# MACS2 parameters
+MACS2:
+  accessibility_params:
+    assays: ["ATAC"]
+    extsize: 150
+    shift: -75
+  genome: "hs"
+  p_value: 0.01
+
+
 # Compute parameters
 threads: 8
 max_memory_allocation_mb: 250000 # for Sherlock, 250Gb
