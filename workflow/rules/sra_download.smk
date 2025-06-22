@@ -12,7 +12,7 @@ rule download_fastq:
         os.path.join(RESULTS_DIR, "logs", "download_{sample_name}_{accession}_{assay}.log")
     threads: THREADS
     resources:
-        mem_mb=2000
+        mem_mb=16000
     conda:
         "../envs/seq_tools.yml"
     shell:

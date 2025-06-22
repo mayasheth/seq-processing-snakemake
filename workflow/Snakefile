@@ -34,13 +34,18 @@ out_params = [os.path.join(RESULTS_DIR, "config", "reference_config.yml"),
     os.path.join(RESULTS_DIR, "config", "sample_metadata.tsv")]
 out_bam = [os.path.join(RESULTS_DIR, s.sample_name, s.assay, f"{s.accession}.filtered.sorted.dedup.bam")
     for s in SAMPLE_CONFIG.itertuples()]
-out_atac_tagalign = [get_tagalign_file(s.assay, s.sample_name, s.accession) for s in SAMPLE_CONFIG.itertuples()
+out_stats = [os.path.join(RESULTS_DIR, s.sample_name, s.assay, f"{s.accession}.samtools_stats.txt")
+    for s in SAMPLE_CONFIG.itertuples()]
+
+out_atac_tagalign = [get_tagalign_file(s.assay, s.sample_name, s.accession)
+    for s in SAMPLE_CONFIG.itertuples()
     if s.assay == "ATAC"]
 out_peaks = [os.path.join(RESULTS_DIR, s.sample_name, s.assay, f"{s.accession}.macs2_peaks.narrowPeak")
     for s in SAMPLE_CONFIG.itertuples()]
 
 output_files = out_params
 output_files.extend(out_bam)
+output_files.extend(out_stats)
 output_files.extend(out_atac_tagalign)
 
 if config["call_peaks"]:

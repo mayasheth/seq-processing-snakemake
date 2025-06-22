@@ -1,10 +1,9 @@
-rule align_pe_fastq:
+rule align_se_fastq:
 	"""
 	Bowtie2 → sorted BAM
 	"""
 	input:
-		fq1 = lambda wildcards: get_fastq_files(wildcards.accession, SAMPLE_CONFIG, config, SCRATCH_DIR)[0],
-		fq2 = lambda wildcards: get_fastq_files(wildcards.accession, SAMPLE_CONFIG, config, SCRATCH_DIR)[1],
+		fq1 = lambda wildcards: get_fastq_files(wildcards.accession, SAMPLE_CONFIG, config, SCRATCH_DIR)[0]
 		scratch_index = os.path.join(SCRATCH_DIR, "bowtie2_index", os.path.basename(config["bowtie2_index"]) + ".1.bt2")
 	params:
 		results = RESULTS_DIR,
@@ -26,21 +25,21 @@ rule align_pe_fastq:
 		echo "Threads: {threads}" >> {log}
 
 		# Align
-		bowtie2 -X 2000 --mm \
-		  -x {params.index} \
-		  -1 {input.fq1} -2 {input.fq2} \
-		  -p {threads} 2>> {log} | \
+		bowtie2 --mm \
+			-x {params.index} \
+			-U {input.fq} \
+			-p {threads} 2>> {log} \
 		samtools sort -@ {threads} -o {output.bam} - >> {log} 2>&1
 
 		echo "Finished: $(date)" >> {log}
 		"""
 
-rule post_filter_pe_bam:
+rule post_filter_se_bam:
 	"""
-	Filter MAPQ, proper pairs, fixmate, resort
+	Filter MAPQ 
 	"""
 	input:
-		bam = rules.align_pe_fastq.output.bam
+		bam = rules.align_se_fastq.output.bam
 	output:
 		filtered = temp(os.path.join(SCRATCH_DIR, "{sample_name}", "{assay}", "{accession}.filtered.sorted.bam"))
 	params:
@@ -55,26 +54,15 @@ rule post_filter_pe_bam:
 		"../envs/seq_tools.yml"
 	shell:
 		"""
-		samtools view -F 1804 -f 2 -q {params.mapq} -u {input.bam} | \
-		  samtools sort -n -@ {threads} -o {params.scratch}/tmp.{wildcards.accession}.nmsrt.bam
-
-		samtools fixmate -r -m \
-		  {params.scratch}/tmp.{wildcards.accession}.nmsrt.bam \
-		  {params.scratch}/tmp.{wildcards.accession}.fixmate.bam
-
-		samtools view -F 1804 -f 2 -u {params.scratch}/tmp.{wildcards.accession}.fixmate.bam | \
-		  samtools sort -@ {threads} -o {output.filtered}
-
-		rm {params.scratch}/tmp.{wildcards.accession}.nmsrt.bam \
-		   {params.scratch}/tmp.{wildcards.accession}.fixmate.bam
+		samtools view -F 1804 -q {params.mapq} -b ${input.bam} -o ${output.filtered}
 		"""
 
-rule markdup_pe_bam:
+rule markdup_se_bam:
 	"""
 	Mark duplicates, remove them, index, and cleanup
 	"""
 	input:
-		filtered = rules.post_filter_pe_bam.output.filtered
+		filtered = rules.post_filter_se_bam.output.filtered
 	output:
 		dedup = os.path.join(RESULTS_DIR, "{sample_name}", "{assay}", "{accession}.filtered.sorted.dedup.bam"),
 		bai = os.path.join(RESULTS_DIR, "{sample_name}", "{assay}", "{accession}.filtered.sorted.dedup.bam.bai")
@@ -89,13 +77,13 @@ rule markdup_pe_bam:
 		"../envs/seq_tools.yml"
 	shell:
 		"""
-		samtools markdup -f {params.scratch}/{wildcards.accession}.markdup.qc \
-		  {input.filtered} \
-		  {params.scratch}/tmp.{wildcards.accession}.filtered.sorted.bam \
-		  &> {log}
-
+		samtools markdup -@ {threads} -f {params.scratch}/{wildcards.accession}.markdup.qc \
+			{input.filtered} \
+			{params.scratch}/tmp.{wildcards.accession}.filtered.sorted.bam \
+			&> {log}
+		
 		mv {params.scratch}/tmp.{wildcards.accession}.filtered.sorted.bam {input.filtered}
 		
-		samtools view -F 1804 -f 2 -b {input.filtered} > {output.dedup}
+		samtools view -F 1804 -b {input.filtered} > {output.dedup}
 		samtools index {output.dedup}
 		"""

@@ -1,3 +1,36 @@
+## Rules that are common to single and paired-ended runs
+
+rule prepare_bowtie2_index:
+	"""
+	Copy Bowtie2 index files to scratch for faster access
+	"""
+	input:
+		expand("{index}.1.bt2", index=config["bowtie2_index"])  # or .1.bt2l for large indexes
+	output:
+		index_base = os.path.join(SCRATCH_DIR, "bowtie2_index", os.path.basename(config["bowtie2_index"]) + ".1.bt2")
+	params:
+		index = config["bowtie2_index"],
+		scratch = os.path.join(SCRATCH_DIR, "bowtie2_index")
+	shell:
+		"""
+		mkdir -p {params.scratch}
+		cp {params.index}.* {params.scratch}/
+		"""
+
+rule samtools_stats:
+	input:
+		bam = os.path.join(RESULTS_DIR, "{sample_name}", "{assay}", "{accession}.filtered.sorted.dedup.bam")
+	output:
+		stats = os.path.join(RESULTS_DIR, "{sample_name}", "{assay}", "{accession}.samtools_stats.txt")
+	resources:
+		mem_mb=3000,
+		runtime=30
+	conda:
+		"../envs/seq_tools.yml"
+	shell:
+		"""
+		samtools stats {input.bam} > {output.stats}
+		"""
 
 rule bam_to_tagalign:
 	"""
