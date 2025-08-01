@@ -1,15 +1,16 @@
 # Sample config with required columns: sample_name, assay, run_type, [accession] OR [accession (any unique id), AND fastq_files]
   # Output files will be organized as {results}/{sample_name}/{assay}/{accession}.bam, etc.
-sample_config: "config/TeloHAEC_metadata.tsv"
+sample_config: config/K562_ChIP_metadata.tsv
 
 # Workflow params
-results_dir: /oak/stanford/groups/engreitz/Projects/E2G/endothelial_cells/TeloHAEC_GSE210489_GSE210491
+results_dir: results/K562_histone_ChIP_seq
 scratch_dir: /scratch/users/shethm/seq-processing-snakemake
 sra_download: True
-call_peaks: False
+call_peaks: True
 
 # Reference files
 bowtie2_index: /oak/stanford/groups/engreitz/Users/sheth/hg38_resources/hg38_bowtie2_index
+chrom_sizes: /oak/stanford/groups/engreitz/Users/sheth/hg38_resources/GRCh38.main.chrom.sizes
 
 # Filtering parameters
 mapq_threshold: 30
@@ -23,6 +24,8 @@ MACS2:
   genome: "hs"
   p_value: 0.01
 
+# BAM to bigWig params
+se_fragment_size: 250
 
 # Compute parameters
 threads: 8

@@ -10,7 +10,7 @@ rule align_pe_fastq:
 		results = RESULTS_DIR,
 		index = os.path.join(SCRATCH_DIR, "bowtie2_index", os.path.basename(config["bowtie2_index"]))
 	output:
-		bam = temp(os.path.join(SCRATCH_DIR, "{sample_name}", "{assay}", "{accession}.bam"))
+		bam = temp(os.path.join(SCRATCH_DIR, "{sample_name}", "{assay}", "{accession}.pe.bam"))
 	log:
 		os.path.join(RESULTS_DIR, "logs", "align_{sample_name}_{assay}_{accession}.log")
 	threads: THREADS
@@ -42,7 +42,7 @@ rule post_filter_pe_bam:
 	input:
 		bam = rules.align_pe_fastq.output.bam
 	output:
-		filtered = temp(os.path.join(SCRATCH_DIR, "{sample_name}", "{assay}", "{accession}.filtered.sorted.bam"))
+		filtered = temp(os.path.join(SCRATCH_DIR, "{sample_name}", "{assay}", "{accession}.pe.filtered.sorted.bam"))
 	params:
 		scratch = SCRATCH_DIR,
 		mapq    = MAPQ
@@ -76,8 +76,8 @@ rule markdup_pe_bam:
 	input:
 		filtered = rules.post_filter_pe_bam.output.filtered
 	output:
-		dedup = os.path.join(RESULTS_DIR, "{sample_name}", "{assay}", "{accession}.filtered.sorted.dedup.bam"),
-		bai = os.path.join(RESULTS_DIR, "{sample_name}", "{assay}", "{accession}.filtered.sorted.dedup.bam.bai")
+		dedup = os.path.join(RESULTS_DIR, "{sample_name}", "{assay}", "{accession}.pe.filtered.sorted.dedup.bam"),
+		bai = os.path.join(RESULTS_DIR, "{sample_name}", "{assay}", "{accession}.pe.filtered.sorted.dedup.bam.bai")
 	params:
 		scratch = SCRATCH_DIR
 	log:

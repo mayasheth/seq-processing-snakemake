@@ -9,5 +9,6 @@ dependencies:
   - sra-tools>=3.0.7
   - bowtie2>=2.3.4
   - bedtools>=2.27
+  - macs2
   - htslib
   - pip

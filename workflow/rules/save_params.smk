@@ -33,16 +33,21 @@ rule save_reference_configs:
             accession = row["accession"] 
             sample_name = row["sample_name"]
             assay = row["assay"]
-            run_type = row["run_type"]
+            if row["run_type"] == "PAIRED":
+                run_type = "pe"
+            elif row["run_type"] == "SINGLE":
+                run_type = "se"
+
             out = {}
 
 
             # bam files
-            out["bam"] = os.path.join(params.results_dir, sample_name, assay, f"{accession}.filtered.sorted.dedup.bam")
+            out["bam"] = os.path.join(params.results_dir, sample_name, assay, f"{accession}.{run_type}.filtered.sorted.dedup.bam")
+            out["bw"] = os.path.join(params.results_dir, sample_name, assay, f"{accession}.{run_type}.bw")
 
             # tagAlign
             if assay == "ATAC":
-                out["tagAlign"] = os.path.join(params.results_dir, sample_name, assay, f"{accession}.tn5.sorted.tagAlign.gz")
+                out["tagAlign"] = os.path.join(params.results_dir, sample_name, assay, f"{accession}.{run_type}.tn5.sorted.tagAlign.gz")
             else:
                 out["tagAlign"] = ""
 
@@ -56,7 +61,7 @@ rule save_reference_configs:
 
             # peaks if indicated
             if params.main_config["call_peaks"]:
-                out["peaks"] = os.path.join(params.scratch_dir, sample_name, assay, f"{accession}.macs2_peaks.narrowPeak")
+                out["peaks"] = os.path.join(params.scratch_dir, sample_name, assay, f"{accession}.{run_type}.macs2_peaks.narrowPeak")
 
             return pd.Series(out)
 
