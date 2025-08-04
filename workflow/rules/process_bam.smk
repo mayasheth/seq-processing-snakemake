@@ -46,7 +46,7 @@ rule bam_to_bigwig:
     se_fragment_size = config["se_fragment_size"]
   resources:
     mem_mb=determine_mem_mb,
-    runtime=30
+    runtime=360
   log:
     os.path.join(RESULTS_DIR, "logs", "bam_to_bw.{sample_name}_{assay}_{accession}_{runtype}.log")
   conda:
@@ -55,24 +55,41 @@ rule bam_to_bigwig:
     """
     set -euo pipefail
 
+    echo "Starting BAM to BigWig conversion for {wildcards.accession}..." > {log}
+
     # Filter BAM file to chrom sizes
-    samtools view -b {input.bam} $(cut -f1 {input.chrom_sizes}) -o {output.bam_filt}
-    samtools index {output.bam_filt}
+    echo "Filtering BAM to chromosomes in chrom_sizes..." >> {log}
+    samtools view -b {input.bam} -o {output.bam_filt} 2>> {log}
+    
+    # Filter to only chromosomes in chrom_sizes file
+    samtools view -h {output.bam_filt} | \
+    awk 'BEGIN{{while((getline < "{input.chrom_sizes}") > 0) chroms[$1]=1}} 
+         /^@/ || chroms[$3]' | \
+    samtools view -b -o {output.bam_filt}.tmp - 2>> {log}
+    mv {output.bam_filt}.tmp {output.bam_filt}
+    
+    samtools index {output.bam_filt} 2>> {log}
 
     # Generate bedGraph
-    echo "Generating bedGraph for {wildcards.accession}..." > {log}
-
+    echo "Generating bedGraph..." >> {log}
     if [[ {wildcards.runtype} == "se" ]]; then
-      echo "Using fragment size of {params.se_fragment_size} bp" > {log}
-      bedtools genomecov -ibam {output.bam_filt} -bg -fs {params.se_fragment_size} > {output.bg}
+        echo "Using fragment size of {params.se_fragment_size} bp" >> {log}
+        bedtools genomecov -ibam {output.bam_filt} -bg -fs {params.se_fragment_size} > {output.bg} 2>> {log}
     elif [[ {wildcards.runtype} == "pe" ]]; then
-      bedtools genomecov -ibam {output.bam_filt} -bg -pc > {output.bg}
+        echo "Using paired-end mode" >> {log}
+        bedtools genomecov -ibam {output.bam_filt} -bg -pc > {output.bg} 2>> {log}
     fi
 
-    # Convert to bigWig
-    echo "Converting bedGraph to bigWig..." > {log}
-    bedGraphToBigWig {output.bg} {input.chrom_sizes} {output.bw}
+    # Sort bedGraph (required for bedGraphToBigWig)
+    echo "Sorting bedGraph..." >> {log}
+    sort -k1,1 -k2,2n {output.bg} > {output.bg}.sorted 2>> {log}
+    mv {output.bg}.sorted {output.bg}
 
+    # Convert to bigWig
+    echo "Converting bedGraph to bigWig..." >> {log}
+    bedGraphToBigWig {output.bg} {input.chrom_sizes} {output.bw} 2>> {log}
+    
+    echo "Completed BAM to BigWig conversion" >> {log}
     """
 
 rule bam_to_tagalign:
