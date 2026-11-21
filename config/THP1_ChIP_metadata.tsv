@@ -1,0 +1,3 @@
+accession	sample_name	assay	run_type	bases	BioProject	sample_id	file_types
+SRR18899252	THP1_macrophages_0000min_R1	H3K27ac	PAIRED	6900693144	PRJNA830917	SAMN27744207	run.zq,sra,fastq
+SRR18899253	THP1_macrophages_0000min_R2	H3K27ac	PAIRED	9301378712	PRJNA830917	SAMN27744208	run.zq,fastq,sra

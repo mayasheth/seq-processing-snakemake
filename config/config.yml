@@ -1,9 +1,9 @@
 # Sample config with required columns: sample_name, assay, run_type, [accession] OR [accession (any unique id), AND fastq_files]
   # Output files will be organized as {results}/{sample_name}/{assay}/{accession}.bam, etc.
-sample_config: config/K562_ChIP_metadata.tsv
+sample_config: config/THP1_ChIP_metadata.tsv
 
 # Workflow params
-results_dir: results/K562_histone_ChIP_seq
+results_dir: /oak/stanford/groups/engreitz/Projects/E2G/THP1/THP1_PRJNA830917
 scratch_dir: /scratch/users/shethm/seq-processing-snakemake
 sra_download: True
 call_peaks: True
