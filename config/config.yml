@@ -9,7 +9,7 @@ sra_download: True
 call_peaks: True
 
 # Reference files
-bowtie2_index: /oak/stanford/groups/engreitz/Users/sheth/hg38_resources/hg38_bowtie2_index
+bowtie2_index: /oak/stanford/groups/engreitz/Users/sheth/hg38_resources/hg38_bowtie2_index  # deleted 2026-11-23; rebuild with bowtie2-build (see README)
 chrom_sizes: /oak/stanford/groups/engreitz/Users/sheth/hg38_resources/GRCh38.main.chrom.sizes
 
 # Filtering parameters
